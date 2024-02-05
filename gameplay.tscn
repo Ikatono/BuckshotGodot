@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://cujdef7evnrlh"]
+
+[ext_resource type="Script" path="res://ItemManager.gd" id="1_1voyt"]
+[ext_resource type="Script" path="res://GamestateManager.gd" id="1_dscsj"]
+[ext_resource type="Script" path="res://ShootOtherScript.gd" id="2_00epn"]
+[ext_resource type="Script" path="res://ShootSelfScript.gd" id="3_b73ex"]
+[ext_resource type="Script" path="res://HealthIndicatorScript.gd" id="3_mi1t4"]
+[ext_resource type="Script" path="res://ShellIndicatorScript.gd" id="6_cuhb1"]
+
+[node name="Gameplay" type="Container"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dscsj")
+
+[node name="Inventory" type="GridContainer" parent="."]
+layout_mode = 2
+script = ExtResource("1_1voyt")
+
+[node name="ShootOptions" type="GridContainer" parent="."]
+layout_mode = 2
+
+[node name="ShootOtherButton" type="Button" parent="ShootOptions"]
+layout_mode = 2
+text = "Shoot Opponent"
+script = ExtResource("2_00epn")
+
+[node name="ShootSelfButton" type="Button" parent="ShootOptions"]
+layout_mode = 2
+text = "Shoot Self"
+script = ExtResource("3_b73ex")
+
+[node name="HealthIndicators" type="RichTextLabel" parent="."]
+layout_mode = 2
+script = ExtResource("3_mi1t4")
+
+[node name="ShellIndicator" type="RichTextLabel" parent="."]
+layout_mode = 2
+script = ExtResource("6_cuhb1")
+
+[connection signal="new_round" from="." to="ShellIndicator" method="_on_gameplay_new_round"]

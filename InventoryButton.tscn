@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cip6wn7duo0d4"]
+
+[ext_resource type="Script" path="res://Items.gd" id="1_c4b6l"]
+
+[node name="InventoryButton" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_c4b6l")
