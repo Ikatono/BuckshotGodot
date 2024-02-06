@@ -13,7 +13,11 @@ signal use_beer
 func choose_width(items: int) -> int:
 	if items <= 1:
 		return 1
-	elif items <= 4:
+	elif items == 2:
+		return 2
+	elif items == 3:
+		return 3
+	elif items == 4:
 		return 2
 	elif items <= 6:
 		return 3
@@ -24,7 +28,7 @@ func choose_width(items: int) -> int:
 	elif items <= 24:
 		return 6
 	#rough method to format larger numbers
-	return floor(sqrt(items * 2 + 1))
+	return floor(sqrt(items * 2))
 
 #delete all children and create new ones
 func reset_children(child_count: int):
