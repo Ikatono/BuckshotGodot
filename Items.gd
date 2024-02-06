@@ -14,7 +14,7 @@ func _process(_delta):
 func _pressed():
 	pass
 
-func get_texture(new_item) -> Texture2D:
+static func get_texture(new_item) -> Texture2D:
 	match new_item:
 		ItemTypes.ItemType.Cigarette:
 			return preload("res://assets/icons/PixelMart/energy_bar.png")

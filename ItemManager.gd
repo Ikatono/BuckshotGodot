@@ -1,17 +1,44 @@
 extends GridContainer
 
 var inventoryButton = preload("res://InventoryButton.tscn")
+var _itemTypes = preload("res://ItemTypes.gd")
+var itemType = _itemTypes.ItemType
+
+signal use_cuffs
+signal use_cigs
+signal use_saw
+signal use_glass
+signal use_beer
 
 func choose_width(items: int) -> int:
-	return floor(sqrt(items * 2))
+	if items <= 1:
+		return 1
+	elif items <= 4:
+		return 2
+	elif items <= 6:
+		return 3
+	elif items <= 12:
+		return 4
+	elif items <= 20:
+		return 5
+	elif items <= 24:
+		return 6
+	#rough method to format larger numbers
+	return floor(sqrt(items * 2 + 1))
 
+#delete all children and create new ones
 func reset_children(child_count: int):
 	var buttons = get_child_buttons()
 	for b in buttons:
 		remove_child(b)
+	columns = choose_width(child_count)
 	for i in range(child_count):
 		add_child(inventoryButton.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED))
-	columns = choose_width(child_count)
+
+#set existing children to None
+func clear_children():
+	for c in get_child_buttons():
+		c.update_item(itemType.None)
 
 #consider caching until reset_children() is called
 func get_child_buttons() -> Array[Button]:
@@ -56,5 +83,23 @@ func generate_possible_item() -> ItemTypes.ItemType:
 func use_item(button: Button):
 	var item_type = button.item
 	match item_type:
-		_:
-			pass
+		itemType.CIGARETTE:
+			use_cigs.emit()
+		itemType.SAW:
+			use_saw.emit()
+		itemType.GLASS:
+			use_glass.emit()
+		itemType.BEER:
+			use_beer.emit()
+		itemType.CUFFS:
+			use_cuffs.emit()
+	button.update_item(itemType.None)
+
+
+func _on_gameplay_new_round(items):
+	for i in range(items):
+		add_item(generate_possible_item())
+
+
+func _on_gameplay_new_stage():
+	clear_children()

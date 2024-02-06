@@ -1,23 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://cujdef7evnrlh"]
+[gd_scene load_steps=8 format=3 uid="uid://cujdef7evnrlh"]
 
 [ext_resource type="Script" path="res://ItemManager.gd" id="1_1voyt"]
-[ext_resource type="Script" path="res://GamestateManager.gd" id="1_dscsj"]
+[ext_resource type="Script" path="res://GameplayManager.gd" id="1_bwqjh"]
 [ext_resource type="Script" path="res://ShootOtherScript.gd" id="2_00epn"]
 [ext_resource type="Script" path="res://ShootSelfScript.gd" id="3_b73ex"]
 [ext_resource type="Script" path="res://HealthIndicatorScript.gd" id="3_mi1t4"]
 [ext_resource type="Script" path="res://ShellIndicatorScript.gd" id="6_cuhb1"]
+[ext_resource type="Script" path="res://LastShellIndicatorScript.gd" id="7_a13n1"]
 
-[node name="Gameplay" type="Container"]
+[node name="Gameplay" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_dscsj")
-
-[node name="Inventory" type="GridContainer" parent="."]
-layout_mode = 2
-script = ExtResource("1_1voyt")
+alignment = 1
+script = ExtResource("1_bwqjh")
 
 [node name="ShootOptions" type="GridContainer" parent="."]
 layout_mode = 2
@@ -32,12 +30,32 @@ layout_mode = 2
 text = "Shoot Self"
 script = ExtResource("3_b73ex")
 
+[node name="Inventory" type="GridContainer" parent="."]
+layout_mode = 2
+script = ExtResource("1_1voyt")
+
 [node name="HealthIndicators" type="RichTextLabel" parent="."]
 layout_mode = 2
+text = "Your health:
+Enemy health:"
 script = ExtResource("3_mi1t4")
 
 [node name="ShellIndicator" type="RichTextLabel" parent="."]
 layout_mode = 2
 script = ExtResource("6_cuhb1")
 
+[node name="LastShellIndicator" type="ColorRect" parent="."]
+layout_mode = 2
+script = ExtResource("7_a13n1")
+
+[connection signal="display_shell" from="." to="LastShellIndicator" method="_on_gameplay_display_shell"]
+[connection signal="new_round" from="." to="Inventory" method="_on_gameplay_new_round"]
 [connection signal="new_round" from="." to="ShellIndicator" method="_on_gameplay_new_round"]
+[connection signal="new_stage" from="." to="Inventory" method="_on_gameplay_new_stage"]
+[connection signal="new_stage" from="." to="HealthIndicators" method="_on_gameplay_new_stage"]
+[connection signal="player_shoot_other" from="ShootOptions/ShootOtherButton" to="." method="_on_shoot_other_button_player_shoot_other"]
+[connection signal="player_shoot_self" from="ShootOptions/ShootSelfButton" to="." method="_on_shoot_self_button_player_shoot_self"]
+[connection signal="use_beer" from="Inventory" to="." method="_on_inventory_use_beer"]
+[connection signal="use_cigs" from="Inventory" to="." method="_on_inventory_use_cigs"]
+[connection signal="use_glass" from="Inventory" to="." method="_on_inventory_use_glass"]
+[connection signal="use_saw" from="Inventory" to="." method="_on_inventory_use_saw"]

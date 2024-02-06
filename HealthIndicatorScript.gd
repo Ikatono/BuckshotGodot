@@ -6,3 +6,7 @@ func rewrite():
 		"them": GameState.player2_health,
 		"max": GameState.max_health,
 	})
+
+
+func _on_gameplay_new_stage():
+	rewrite()

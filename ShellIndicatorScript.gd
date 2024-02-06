@@ -1,7 +1,5 @@
 extends RichTextLabel
 
-const live_color = Color.DARK_RED
-const blank_color = Color.DIM_GRAY
 const display_time = 3.0
 
 func display_shells():
@@ -10,9 +8,9 @@ func display_shells():
 	clear()
 	for b in shuffled:
 		if b:
-			push_color(live_color)
+			push_color(GameConfiguration.live_color)
 		else:
-			push_color(blank_color)
+			push_color(GameConfiguration.blank_color)
 		append_text("▉")
 		pop()
 
@@ -20,7 +18,7 @@ func hide_shells():
 	clear()
 
 #called after GamestateManager is updated
-func _on_gameplay_new_round():
+func _on_gameplay_new_round(items: int):
 	display_shells()
 	await get_tree().create_timer(display_time).timeout
 	hide_shells()
